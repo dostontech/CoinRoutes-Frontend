@@ -1,7 +1,8 @@
-Certainly! Here's a complete `README.md` file for your project:
 
 ```markdown
 # CoinRoutes Frontend
+
+https://coin-routes-frontend.vercel.app/
 
 ## Overview
 
@@ -74,9 +75,3 @@ npm test
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
-### Notes
-
-- Replace `https://github.com/your-repo/coinroutes-frontend.git` with the actual URL of your Git repository.
-- Customize any additional setup steps or configurations as needed for your project.
-- Adjust the contact information and license details according to your preferences.
