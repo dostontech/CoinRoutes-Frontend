@@ -23,12 +23,12 @@ const App: React.FC = () => {
 
   return (
     <Layout>
-      <header className="px-4 py-2 m-4 bg-gray-700 rounded-lg">
+      <header className="px-4 py-2 bg-gray-700 rounded-lg">
         <h2 className="text-white text-lg md:text-xl">CoinRoutes Frontend</h2>
       </header>
-      <main className="container mx-auto m-4 px-4 md:px-10">
+      <main className="container mx-auto m-4">
         <div className="text-white">
-          <div className="mb-4">
+          <div className="mb-4 px-5 sm:px-10">
             <label htmlFor="currency-pair" className="text-white text-lg">Select Currency Pair:</label>
             <select
               id="currency-pair"
@@ -42,7 +42,7 @@ const App: React.FC = () => {
             </select>
             <TopOfBook selectedPair={selectedPair} />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 px-5 sm:px-10">
             <label htmlFor="aggregation" className="text-white text-lg">Aggregation Increment:</label>
             <select
               id="aggregation"
@@ -58,10 +58,10 @@ const App: React.FC = () => {
             </select>
           </div>
           <div className="flex flex-col gap-4 md:flex-row">
-            <div className="flex-1 min-w-0 mb-4 md:mb-0 md:pr-4">
+            <div className="flex-1 min-w-0 mb-4 md:mb-0 md:pr-4 px-5 sm:px-10">
               <LadderView selectedPair={selectedPair} aggregationIncrement={aggregationIncrement} />
             </div>
-            <div className="flex-1 min-w-0 mb-4 md:mb-0">
+            <div className="flex-1 min-w-0 mb-4 md:mb-0 px-5 sm:px-10">
               <RealTimeChart selectedPair={selectedPair} />
             </div>
           </div>
