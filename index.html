@@ -1,13 +1,457 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CoinRoutes Frontend</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 Directory</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --dark-bg: #0a0a0f;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .badge-outline {
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--primary);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+<nav class="fixed w-full z-50 glass">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-12">
+                    <a href="#" class="text-2xl font-bold gradient-text">W3D</a>
+                    <div class="hidden md:flex items-center gap-8">
+                        <a href="#" class="text-white/80 hover:text-white transition-colors">Explore</a>
+                        <a href="#" class="text-white/80 hover:text-white transition-colors">Jobs</a>
+                        <a href="#" class="text-white/80 hover:text-white transition-colors">News</a>
+                        <a href="#" class="text-white/80 hover:text-white transition-colors">Community</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center gap-4">
+                    <button class="btn-outline">Sign In</button>
+                    <button class="btn-primary">Get Started</button>
+                </div>
+                <button class="md:hidden" onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden fixed inset-0 z-40 bg-black/90 backdrop-blur-lg">
+        <div class="flex flex-col items-center justify-center h-full gap-8">
+            <a href="#" class="text-xl text-white/80 hover:text-white">Explore</a>
+            <a href="#" class="text-xl text-white/80 hover:text-white">Jobs</a>
+            <a href="#" class="text-xl text-white/80 hover:text-white">News</a>
+            <a href="#" class="text-xl text-white/80 hover:text-white">Community</a>
+            <button class="btn-outline mt-4">Sign In</button>
+            <button class="btn-primary">Get Started</button>
+            <button onclick="toggleMobileMenu()" class="absolute top-6 right-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-primary/20 to-secondary/20 -z-10"></div>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                    Discover the Future of
+                    <span class="gradient-text">Web3</span>
+                </h1>
+                <p class="text-xl text-white/80 mb-12">
+                    Your gateway to decentralized innovation. Explore projects, 
+                    find opportunities, and connect with the Web3 community.
+                </p>
+                <div class="relative max-w-2xl mx-auto">
+                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input 
+                        type="text" 
+                        placeholder="Search projects, jobs, or learn about Web3..." 
+                        class="w-full pl-12 pr-4 py-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary/50 focus:outline-none transition-colors"
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="max-w-7xl mx-auto px-6 mt-20">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6 card">
+                    <div class="text-3xl font-bold gradient-text mb-2">10K+</div>
+                    <div class="text-white/60">Active Projects</div>
+                </div>
+                <div class="p-6 card">
+                    <div class="text-3xl font-bold gradient-text mb-2">5K+</div>
+                    <div class="text-white/60">Job Opportunities</div>
+                </div>
+                <div class="p-6 card">
+                    <div class="text-3xl font-bold gradient-text mb-2">100K+</div>
+                    <div class="text-white/60">Community Members</div>
+                </div>
+                <div class="p-6 card">
+                    <div class="text-3xl font-bold gradient-text mb-2">50+</div>
+                    <div class="text-white/60">Countries</div>
+                </div>
+            </div>
+        </div>
+    </section>
+  <!-- Categories Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-3xl font-bold mb-2">Explore Categories</h2>
+                    <p class="text-white/60">Discover the latest in Web3 innovation</p>
+                </div>
+                <button class="btn-outline">View All</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Category Cards -->
+                <div class="card p-6 hover:scale-[1.02] transition-all">
+                    <div class="flex items-start justify-between mb-6">
+                        <span class="text-4xl">🌐</span>
+                        <span class="badge badge-primary">156 Projects</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">DeFi Protocols</h3>
+                    <p class="text-white/60">Decentralized finance solutions and protocols</p>
+                </div>
+
+                <div class="card p-6 hover:scale-[1.02] transition-all">
+                    <div class="flex items-start justify-between mb-6">
+                        <span class="text-4xl">🎮</span>
+                        <span class="badge badge-primary">89 Projects</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">GameFi</h3>
+                    <p class="text-white/60">Blockchain gaming and metaverse projects</p>
+                </div>
+
+                <div class="card p-6 hover:scale-[1.02] transition-all">
+                    <div class="flex items-start justify-between mb-6">
+                        <span class="text-4xl">🏛️</span>
+                        <span class="badge badge-primary">124 Projects</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">DAOs</h3>
+                    <p class="text-white/60">Decentralized autonomous organizations</p>
+                </div>
+
+                <div class="card p-6 hover:scale-[1.02] transition-all">
+                    <div class="flex items-start justify-between mb-6">
+                        <span class="text-4xl">🔐</span>
+                        <span class="badge badge-primary">95 Projects</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Security</h3>
+                    <p class="text-white/60">Blockchain security and auditing tools</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects -->
+    <section class="py-20 bg-white/[0.02]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-3xl font-bold mb-2">Featured Projects</h2>
+                    <p class="text-white/60">Explore trending projects in Web3</p>
+                </div>
+                <button class="btn-outline">View All</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project Cards -->
+                <div class="card p-6">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="badge badge-outline">DeFi</span>
+                            <span class="text-green-400">+45%</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">DeFi Protocol Alpha</h3>
+                    <p class="text-white/60 mb-6">Advanced yield optimization protocol with multi-chain support</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex -space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-blue-500/20 border border-white/10"></div>
+                            <div class="w-8 h-8 rounded-full bg-purple-500/20 border border-white/10"></div>
+                            <div class="w-8 h-8 rounded-full bg-pink-500/20 border border-white/10"></div>
+                        </div>
+                        <button class="text-primary hover:text-primary-dark">View Details →</button>
+                    </div>
+                </div>
+
+                <!-- More Project Cards... -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Jobs Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-3xl font-bold mb-2">Latest Jobs</h2>
+                    <p class="text-white/60">Find your next opportunity in Web3</p>
+                </div>
+                <button class="btn-outline">Post a Job</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="card p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold mb-2">Senior Solidity Developer</h3>
+                            <p class="text-white/60 mb-4">DeFi Protocol • Remote</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="badge badge-outline">Solidity</span>
+                                <span class="badge badge-outline">DeFi</span>
+                                <span class="badge badge-outline">Smart Contracts</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-white/60">$120k - $180k</span>
+                                <button class="btn-primary">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More Job Cards... -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-20 bg-white/[0.02]">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
+            <p class="text-white/60 mb-8">Get the latest Web3 news and opportunities delivered to your inbox</p>
+            <div class="flex gap-4">
+                <input 
+                    type="email" 
+                    placeholder="Enter your email" 
+                    class="flex-1 px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-primary/50 focus:outline-none"
+                >
+                <button class="btn-primary">Subscribe</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h3 class="font-bold mb-4">Platform</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-white/60 hover:text-white">Explore</a></li>
+                        <li><a href="#" class="text-white/60 hover:text-white">Jobs</a></li>
+                        <li><a href="#" class="text-white/60 hover:text-white">Learn</a></li>
+                        <li><a href="#" class="text-white/60 hover:text-white">Community</a></li>
+                    </ul>
+                </div>
+                <!-- More Footer Columns... -->
+            </div>
+            <div class="text-center text-white/60">
+                <p>&copy; 2024 Web3 Directory. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for Fade-in Animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach((section) => {
+            section.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700');
+            observer.observe(section);
+        });
+    </script>
+</body>
 </html>
+
+
+                  
